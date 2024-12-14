@@ -57,7 +57,7 @@ const Home = () => {
   return (
     <main className="min-h-screen flex flex-col justify-between mt-12 pt-6 bg-white">
       <section className="relative bg-cover bg-center lg:h-[91vh] h-[50vh] text-black pt-4">
-        <div className="absolute inset-0 bg-[url('/background.png')] bg-cover bg-center opacity-40"></div>
+        <div className="absolute inset-0 bg-[url('/background.png')] bg-cover bg-center opacity-20"></div>
 
         <div className="container mx-auto px-4 py-20 grid md:grid-cols-2 gap-12 items-center relative z-10">
           <div>
@@ -75,7 +75,7 @@ const Home = () => {
             {features.map((feature, index) => (
               <div 
                 key={index} 
-                className="bg-white/10 p-6 rounded-xl border border-white/20 hover:bg-white/20 transition-all"
+                className="bg-white/60 p-6 rounded-xl border border-white/100 hover:bg-white/100 transition-all"
               >
                 <div className="mb-4">
                   {feature.icon}
@@ -137,41 +137,41 @@ const Home = () => {
             <div className="bg-green-100 rounded-xl p-8">
   <div className="container mx-auto px-4">
     {/* Title */}
-    <h2 className="text-center text-3xl font-bold mb-12 text-green-900">Alur Sistem GerakPeduli</h2>
+    <h2 className="text-center text-3xl font-bold mb-6 text-green-900">Alur Sistem GerakPeduli</h2>
     
     {/* Diagram */}
     <div className="bg-green-50 p-8 rounded-xl">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" className="w-full">
         {/* Disaster Detection */}
         <circle cx="100" cy="150" r="60" fill="#22c55e" className="opacity-80" />
-        <text x="100" y="145" textAnchor="middle" fill="#ffffff" fontWeight="bold" fontSize="12px">
+        <text x="100" y="145" textAnchor="middle" fill="#ffffff" fontWeight="bold" fontSize="15px">
           Deteksi
         </text>
-        <text x="100" y="165" textAnchor="middle" fill="#ffffff" fontWeight="bold" fontSize="12px">
+        <text x="100" y="165" textAnchor="middle" fill="#ffffff" fontWeight="bold" fontSize="15px">
           Bencana
         </text>
 
         {/* Data Collection */}
         <circle cx="300" cy="150" r="60" fill="#22c55e" className="opacity-80" />
-        <text x="300" y="145" textAnchor="middle" fill="#ffffff" fontWeight="bold" fontSize="12px">
+        <text x="300" y="145" textAnchor="middle" fill="#ffffff" fontWeight="bold" fontSize="15px">
           Pengumpulan
         </text>
-        <text x="300" y="165" textAnchor="middle" fill="#ffffff" fontWeight="bold" fontSize="12px">
+        <text x="300" y="165" textAnchor="middle" fill="#ffffff" fontWeight="bold" fontSize="15px">
           Data
         </text>
 
         {/* Resource Allocation */}
         <circle cx="500" cy="150" r="60" fill="#22c55e" className="opacity-80" />
-        <text x="500" y="145" textAnchor="middle" fill="#ffffff" fontWeight="bold" fontSize="12px">
+        <text x="500" y="145" textAnchor="middle" fill="#ffffff" fontWeight="bold" fontSize="15px">
           Alokasi
         </text>
-        <text x="500" y="165" textAnchor="middle" fill="#ffffff" fontWeight="bold" fontSize="12px">
+        <text x="500" y="165" textAnchor="middle" fill="#ffffff" fontWeight="bold" fontSize="15px">
           Sumber Daya
         </text>
 
         {/* Monitoring */}
         <circle cx="700" cy="150" r="60" fill="#22c55e" className="opacity-80" />
-        <text x="700" y="145" textAnchor="middle" fill="#ffffff" fontWeight="bold" fontSize="12px">
+        <text x="700" y="155" textAnchor="middle" fill="#ffffff" fontWeight="bold" fontSize="15px">
           Pemantauan
         </text>
 
