@@ -4,7 +4,7 @@ import Link from "next/link";
 const Navbar = () => {
   return (
     <header className="shadow-md fixed top-0 left-0 w-full bg-gradient-to-r from-green-600 to-green-900 text-white z-50">
-      <nav className="flex items-center justify-between p-4">
+      <nav className="flex items-center justify-between p-5">
         <Link href="/" className="text-2xl font-bold">
           GerakPeduli
         </Link>

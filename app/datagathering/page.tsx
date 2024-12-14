@@ -28,7 +28,7 @@ const DataGatheringPage = () => {
 
   return (
     <div>
-      <main className="container mx-auto py-12">
+      <main className="container mx-auto py-12 mt-20 pt-4">
         <h1 className="text-3xl font-bold mb-6">Data Gathering</h1>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>

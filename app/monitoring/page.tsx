@@ -22,7 +22,7 @@ const MonitoringPage = () => {
 
   return (
     <div>
-      <main className="container mx-auto py-12">
+      <main className="container mx-auto py-12 mt-20 pt-4">
         <h1 className="text-3xl font-bold mb-6">Monitoring</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
