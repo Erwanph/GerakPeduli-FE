@@ -2,8 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-// import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
 
 const DataGatheringPage = () => {
   const router = useRouter();
@@ -139,12 +137,6 @@ const DataGatheringPage = () => {
         </form>
         <div className="mt-8">
           <h2 className="text-2xl font-bold mb-4">Location on Map</h2>
-            {/* <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-            <Marker position={[formData.latitude, formData.longitude]}>
-              <Popup>
-                <strong>Location:</strong> {formData.location}
-              </Popup>
-            </Marker> */}
         </div>
       </main>
     </div>
