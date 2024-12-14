@@ -1,16 +1,18 @@
 'use client'
 
 // pages/monitoring.tsx
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const MonitoringPage = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [gempaBanten, setGempaBanten] = useState([
     { name: 'Jan', supply: 100, volunteers: 50, remaining: 20 },
     { name: 'Feb', supply: 150, volunteers: 75, remaining: 30 },
     { name: 'Mar', supply: 180, volunteers: 90, remaining: 40 },
     { name: 'Apr', supply: 200, volunteers: 100, remaining: 50 },
   ]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [lumpur, setLumpur] = useState([
     { name: 'Jan', supply: 80, volunteers: 30, remaining: 10 },
     { name: 'Feb', supply: 100, volunteers: 40, remaining: 15 },

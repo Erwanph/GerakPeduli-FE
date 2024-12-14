@@ -1,6 +1,4 @@
 // pages/index.js
-import Image from "next/image";
-import Link from "next/link";
 
 const Home = () => {
   return (
