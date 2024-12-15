@@ -59,7 +59,7 @@ const disasterData = {
 };
 
 const MonitoringDashboard = () => {
-  const [selectedDisaster, setSelectedDisaster] = useState('Gempa Banten');
+  const [selectedDisaster, setSelectedDisaster] = useState<keyof typeof disasterData>('Gempa Banten');
   
   const currentDisaster = disasterData[selectedDisaster];
 
@@ -71,7 +71,7 @@ const MonitoringDashboard = () => {
       <div className="mb-6">
         <select
           value={selectedDisaster}
-          onChange={(e) => setSelectedDisaster(e.target.value)}
+          onChange={(e) => setSelectedDisaster(e.target.value as keyof typeof disasterData)}
           className="px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           {Object.keys(disasterData).map((disaster) => (
