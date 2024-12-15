@@ -2,6 +2,9 @@
 import React from 'react';
 import { Globe, Zap, Shield, Award, Users, MapPin, FileText } from 'lucide-react';
 import { useState } from 'react';
+import Link from "next/link";
+import Image from 'next/image';
+
 const Home = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [activeStudy, setActiveStudy] = useState(0);
@@ -61,14 +64,15 @@ const Home = () => {
 
         <div className="container mx-auto px-4 py-20 grid md:grid-cols-2 gap-12 items-center relative z-10">
           <div>
-            <h1 className="text-5xl font-bold mb-6">GerakPeduli</h1>
+            <Image src="/logo_nobg.png" alt="GerakPeduli" width={150} height={150} />
+            <h1 className="text-5xl font-bold mb-6 pt-6">GerakPeduli</h1>
             <p className="text-xl mb-8 opacity-90">
               Sistem digital canggih untuk koordinasi dan respons bencana, merevolusi cara kita menangani keadaan darurat melalui teknologi terintegrasi.
             </p>
             <div className="flex space-x-4">
-              <button className="bg-white text-green-800 px-6 py-3 rounded-full font-semibold hover:bg-green-100 transition-colors">
+              <Link href="/signup" className="bg-white text-green-800 px-6 py-3 rounded-full font-semibold hover:bg-green-100 transition-colors">
                 Daftar Relawan
-              </button>
+              </Link>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-6">

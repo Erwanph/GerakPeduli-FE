@@ -10,7 +10,7 @@ const DataGatheringPage = () => {
     volunteers: 0,
     weather: '',
     location: '',
-    facilities: 0,
+    brokenFacilities: 0,
     latitude: 0,
     longitude: 0,
   });
@@ -87,14 +87,14 @@ const DataGatheringPage = () => {
             ></textarea>
           </div>
           <div>
-            <label htmlFor="facilities" className="block font-medium mb-2">
+            <label htmlFor="brokenFacilities" className="block font-medium mb-2">
               Number of Broken Facilities
             </label>
             <input
               type="number"
-              id="facilities"
-              name="facilities"
-              value={formData.facilities}
+              id="brokenFacilities"
+              name="brokenFacilities"
+              value={formData.brokenFacilities}
               onChange={handleInputChange}
               className="w-full border-gray-300 rounded-md shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50"
               required
@@ -135,9 +135,6 @@ const DataGatheringPage = () => {
             Submit Data
           </button>
         </form>
-        <div className="mt-8">
-          <h2 className="text-2xl font-bold mb-4">Location on Map</h2>
-        </div>
       </main>
     </div>
   );
