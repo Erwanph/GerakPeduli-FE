@@ -7,11 +7,43 @@ const SignupPage = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Add your signup logic here
-    console.log('Name:', name, 'Email:', email, 'Password:', password);
+    setError(''); // Clear previous error messages
+    setSuccess(false); // Reset success state
+
+    try {
+      const response = await fetch('https://gerak-peduli-be.vercel.app/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: name,
+          email: email,
+          password: password,
+        }),
+      });
+
+      if (response.ok) {
+        // Successfully registered
+        setSuccess(true);
+        setName('');
+        setEmail('');
+        setPassword('');
+        console.log('Registration successful');
+      } else {
+        // Handle server error response
+        const errorData = await response.json();
+        setError(errorData.message || 'Something went wrong');
+      }
+    } catch (err) {
+      console.error('Error:', err);
+      setError('Failed to connect to the server');
+    }
   };
 
   return (
@@ -21,6 +53,16 @@ const SignupPage = () => {
           <Image src="/logo.png" alt="GerakPeduli" width={150} height={150} />
         </div>
         <h2 className="text-2xl font-bold mb-4 text-green-800">Join GerakPeduli</h2>
+        {error && (
+          <div className="bg-red-100 text-red-800 p-3 rounded mb-4">
+            {error}
+          </div>
+        )}
+        {success && (
+          <div className="bg-green-100 text-green-800 p-3 rounded mb-4">
+            Registration successful! Please <Link href="/login" className="text-green-800 font-medium hover:underline">Sign In</Link>.
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="name" className="block font-medium mb-2">
