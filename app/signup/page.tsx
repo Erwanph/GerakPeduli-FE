@@ -7,6 +7,7 @@ const SignupPage = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState(''); // Set initial role as empty string
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
@@ -25,6 +26,7 @@ const SignupPage = () => {
           username: name,
           email: email,
           password: password,
+          role: role, // Send the role in the request
         }),
       });
 
@@ -34,6 +36,7 @@ const SignupPage = () => {
         setName('');
         setEmail('');
         setPassword('');
+        setRole(''); // Reset the role state to empty string
         console.log('Registration successful');
       } else {
         // Handle server error response
@@ -42,7 +45,7 @@ const SignupPage = () => {
       }
     } catch (err) {
       console.error('Error:', err);
-      setError('Failed to connect to the server');
+      setError('Error! Check again your form.');
     }
   };
 
@@ -60,7 +63,10 @@ const SignupPage = () => {
         )}
         {success && (
           <div className="bg-green-100 text-green-800 p-3 rounded mb-4">
-            Registration successful! Please <Link href="/login" className="text-green-800 font-medium hover:underline">Sign In</Link>.
+            Registration successful! Please{' '}
+            <Link href="/login" className="text-green-800 font-medium hover:underline">
+              Sign In
+            </Link> to your account.
           </div>
         )}
         <form onSubmit={handleSubmit}>
@@ -102,6 +108,23 @@ const SignupPage = () => {
               className="w-full border-gray-300 rounded-md shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50"
               required
             />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="role" className="block font-medium mb-2">
+              Role
+            </label>
+            <select
+              id="role"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              className="w-full border-gray-300 rounded-md shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50"
+              required
+            >
+              <option value="">Select a Role</option> {/* Default empty option */}
+              <option value="Relawan">Relawan</option>
+              <option value="Tim Lapangan">Tim Lapangan</option>
+              <option value="Tim Logistik">Tim Logistik</option>
+            </select>
           </div>
           <button
             type="submit"

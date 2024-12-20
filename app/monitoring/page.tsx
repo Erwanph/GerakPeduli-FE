@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   LineChart,
   Line,
@@ -20,48 +20,47 @@ import {
   FaMapMarkerAlt
 } from 'react-icons/fa';
 
+// Mock data for different disasters
+const disasterData = {
+  'Gempa Banten': {
+    overview: {
+      fatalities: 87,
+      volunteers: 150,
+      weather: 'Partly Cloudy',
+      location: 'Banten Province, Indonesia',
+      brokenFacilities: 230,
+      latitude: -6.1161,
+      longitude: 106.0425
+    },
+    timeSeriesData: [
+      { time: '06:00', fatalities: 87, volunteers: 50, brokenFacilities: 230 },
+      { time: '09:00', fatalities: 65, volunteers: 80, brokenFacilities: 180 },
+      { time: '12:00', fatalities: 45, volunteers: 120, brokenFacilities: 120 },
+      { time: '15:00', fatalities: 20, volunteers: 150, brokenFacilities: 50 },
+    ]
+  },
+  'Lumpur Lapindo': {
+    overview: {
+      fatalities: 53,
+      volunteers: 120,
+      weather: 'Cloudy',
+      location: 'Sidoarjo, East Java, Indonesia',
+      brokenFacilities: 180,
+      latitude: -7.4580,
+      longitude: 112.7097
+    },
+    timeSeriesData: [
+      { time: '06:00', fatalities: 53, volunteers: 40, brokenFacilities: 180 },
+      { time: '09:00', fatalities: 42, volunteers: 70, brokenFacilities: 140 },
+      { time: '12:00', fatalities: 30, volunteers: 100, brokenFacilities: 90 },
+      { time: '15:00', fatalities: 15, volunteers: 120, brokenFacilities: 40 },
+    ]
+  }
+};
+
 const MonitoringDashboard = () => {
-  const [disasterData, setDisasterData] = useState<any>({});
-  const [selectedDisaster, setSelectedDisaster] = useState<string>('');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('https://gerak-peduli-be.vercel.app/disaster/all');
-        if (response.ok) {
-          const data = await response.json();
-          setDisasterData(data);
-          // Set the first disaster as selected by default
-          if (Object.keys(data).length > 0) {
-            setSelectedDisaster(Object.keys(data)[0]);
-          }
-        } else {
-          setError('Failed to fetch disaster data');
-        }
-      } catch (err) {
-        setError('Failed to connect to the server');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (loading) {
-    return <div className="flex justify-center items-center h-screen">Loading...</div>;
-  }
-
-  if (error) {
-    return <div className="text-red-600 text-center mt-10">{error}</div>;
-  }
-
-  if (!selectedDisaster || Object.keys(disasterData).length === 0) {
-    return <div className="text-center mt-10">No disaster data available</div>;
-  }
-
+  const [selectedDisaster, setSelectedDisaster] = useState<keyof typeof disasterData>('Gempa Banten');
+  
   const currentDisaster = disasterData[selectedDisaster];
 
   return (
@@ -72,7 +71,7 @@ const MonitoringDashboard = () => {
       <div className="mb-6">
         <select
           value={selectedDisaster}
-          onChange={(e) => setSelectedDisaster(e.target.value)}
+          onChange={(e) => setSelectedDisaster(e.target.value as keyof typeof disasterData)}
           className="px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           {Object.keys(disasterData).map((disaster) => (
@@ -83,7 +82,95 @@ const MonitoringDashboard = () => {
         </select>
       </div>
 
-      {/* Rest of your existing dashboard components */}
+      {/* Overview Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div className="p-4 bg-white rounded-md shadow">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-medium">Fatalities</h3>
+            <FaExclamationTriangle className="h-6 w-6 text-gray-500" />
+          </div>
+          <div className="text-2xl font-bold">{currentDisaster.overview.fatalities}</div>
+        </div>
+        <div className="p-4 bg-white rounded-md shadow">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-medium">Volunteers Standby</h3>
+            <FaUserFriends className="h-6 w-6 text-gray-500" />
+          </div>
+          <div className="text-2xl font-bold">{currentDisaster.overview.volunteers}</div>
+        </div>
+        <div className="p-4 bg-white rounded-md shadow">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-medium">Broken Facilities</h3>
+            <FaBuilding className="h-6 w-6 text-gray-500" />
+          </div>
+          <div className="text-2xl font-bold">{currentDisaster.overview.brokenFacilities}</div>
+        </div>
+      </div>
+
+      {/* Additional Details */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div className="p-4 bg-white rounded-md shadow">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-medium">Weather Conditions</h3>
+            <FaAmbulance className="h-6 w-6 text-gray-500" />
+          </div>
+          <div className="text-2xl font-bold">{currentDisaster.overview.weather}</div>
+        </div>
+        <div className="p-4 bg-white rounded-md shadow">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-medium">Location</h3>
+            <FaMapMarkerAlt className="h-6 w-6 text-gray-500" />
+          </div>
+          <div className="text-2xl font-bold">{currentDisaster.overview.location}</div>
+        </div>
+      </div>
+
+      {/* Time Series Charts */}
+      <div>
+        <h2 className="text-2xl font-bold mb-4">Disaster Progression</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <h3 className="text-xl font-bold mb-2">Fatalities Over Time</h3>
+            <ResponsiveContainer width="100%" height={400}>
+              <LineChart data={currentDisaster.timeSeriesData}>
+                <XAxis dataKey="time" />
+                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" />
+                <Tooltip />
+                <Legend />
+                <Line 
+                  type="monotone" 
+                  dataKey="fatalities" 
+                  stroke="#8884d8" 
+                  name="Fatalities"
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+          <div>
+            <h3 className="text-xl font-bold mb-2">Volunteers and Broken Facilities</h3>
+            <ResponsiveContainer width="100%" height={400}>
+              <BarChart data={currentDisaster.timeSeriesData}>
+                <XAxis dataKey="time" />
+                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" />
+                <Tooltip />
+                <Legend />
+                <Bar 
+                  dataKey="volunteers" 
+                  fill="#8884d8" 
+                  name="Volunteers"
+                />
+                <Bar 
+                  dataKey="brokenFacilities" 
+                  fill="#82ca9d" 
+                  name="Broken Facilities"
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
