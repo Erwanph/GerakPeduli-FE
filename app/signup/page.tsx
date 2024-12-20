@@ -50,7 +50,7 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center pt-10">
+    <div className="min-h-screen flex items-center justify-center pt-20">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <div className="flex justify-center mb-6">
           <Image src="/logo.png" alt="GerakPeduli" width={150} height={150} />

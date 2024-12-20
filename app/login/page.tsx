@@ -7,12 +7,12 @@ const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const router = useRouter(); // Used to navigate after successful login
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(''); // Clear previous error messages
-
+    setError('');
+  
     try {
       const response = await fetch('https://gerak-peduli-be.vercel.app/auth/login', {
         method: 'POST',
@@ -24,23 +24,26 @@ const LoginPage = () => {
           password: password,
         }),
       });
-
+  
       if (response.ok) {
-        // Successful login
         const data = await response.json();
-        console.log('Login successful:', data);
-
-        // Store token and user info in localStorage
+        
+        // Simpan token
         localStorage.setItem('sessionToken', data.token);
         localStorage.setItem('user', JSON.stringify({
           name: data.name,
           email: data.email,
         }));
-
-        // Redirect to the home page
-        router.push('/');
+  
+        // Pancarkan event loginSuccess
+        const loginEvent = new Event('loginSuccess');
+        window.dispatchEvent(loginEvent);
+  
+        // Tunggu sebentar sebelum redirect untuk memastikan event terproses
+        setTimeout(() => {
+          router.push('/');
+        }, 100);
       } else {
-        // Handle server error response
         const errorData = await response.json();
         setError(errorData.message || 'Invalid email or password');
       }
@@ -49,24 +52,21 @@ const LoginPage = () => {
       setError('Failed to connect to the server');
     }
   };
-
+  
   return (
     <div className="min-h-screen flex items-center justify-center pt-10">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <div className="flex justify-center mb-6">
-          {/* Logo Image */}
           <img src="/logo.png" alt="GerakPeduli" width={150} height={150} />
         </div>
         <h2 className="text-2xl font-bold mb-4 text-green-800">Sign In to GerakPeduli</h2>
         
-        {/* Error Message */}
         {error && (
           <div className="bg-red-100 text-red-800 p-3 rounded mb-4">
             {error}
           </div>
         )}
 
-        {/* Login Form */}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="email" className="block font-medium mb-2">
@@ -103,7 +103,6 @@ const LoginPage = () => {
           </button>
         </form>
 
-        {/* Sign up link */}
         <div className="text-center mt-4">
           Don&apos;t have an account?{' '}
           <Link href="/signup" className="text-green-800 font-medium hover:underline">

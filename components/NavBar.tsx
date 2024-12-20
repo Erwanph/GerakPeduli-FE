@@ -6,18 +6,53 @@ import { useState, useEffect } from 'react';
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Cek status login dari localStorage saat komponen pertama kali dimuat
-  useEffect(() => {
-    const token = localStorage.getItem('sessionToken');
-    setIsLoggedIn(!!token);  // Jika token ada, set login status jadi true
-  }, []); // Efek ini hanya dijalankan sekali saat pertama kali komponen dimuat
-
-  // Fungsi untuk logout
-  const handleLogout = () => {
-    localStorage.removeItem('sessionToken');  // Hapus sessionToken
-    setIsLoggedIn(false);  // Update status login jadi false
-    window.location.href = '/login';  // Arahkan pengguna ke halaman login
+  // Fungsi untuk mengecek status login
+  const checkLoginStatus = () => {
+    try {
+      const token = localStorage.getItem('sessionToken');
+      setIsLoggedIn(!!token);
+    } catch (error) {
+      console.error('Error checking login status:', error);
+      setIsLoggedIn(false);
+    }
   };
+
+  // Effect untuk cek status awal dan setup event listeners
+  useEffect(() => {
+    // Cek status login saat komponen dimount
+    checkLoginStatus();
+
+    // Event listener untuk perubahan di localStorage
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'sessionToken') {
+        checkLoginStatus();
+      }
+    };
+
+    // Event listener untuk login sukses
+    const handleLoginSuccess = () => {
+      checkLoginStatus();
+    };
+
+    // Setup event listeners
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('loginSuccess', handleLoginSuccess);
+
+    // Cleanup event listeners
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('loginSuccess', handleLoginSuccess);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('sessionToken');
+    localStorage.removeItem('user');
+    setIsLoggedIn(false);
+    window.location.href = '/login';
+  };
+
+  const buttonClasses = "font-bold px-4 py-2 rounded w-[80px] text-center";
 
   return (
     <header className="shadow-md fixed top-0 left-0 w-full bg-gradient-to-r from-green-600 to-green-900 text-white z-50">
@@ -26,7 +61,6 @@ const Navbar = () => {
           GerakPeduli
         </Link>
 
-        {/* Navigation links */}
         <div className="flex items-center space-x-5">
           <ul className="flex space-x-3">
             <li><Link href="/" className="font-bold hover:bg-white hover:text-green-600 px-3 py-2 rounded">Home</Link></li>
@@ -37,12 +71,15 @@ const Navbar = () => {
             {isLoggedIn ? (
               <button
                 onClick={handleLogout}
-                className="font-bold bg-red-500 hover:bg-white hover:text-green-600 px-4 py-2 rounded"
+                className={`${buttonClasses} bg-red-500 hover:bg-white hover:text-green-600`}
               >
                 Logout
               </button>
             ) : (
-              <Link href="/login" className="font-bold bg-green-500 hover:bg-white hover:text-green-600 px-4 py-2 rounded">
+              <Link 
+                href="/login" 
+                className={`${buttonClasses} bg-green-500 hover:bg-white hover:text-green-600 inline-block`}
+              >
                 Login
               </Link>
             )}
